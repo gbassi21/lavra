@@ -180,16 +180,57 @@
   .tema-vermelho{background:#A90F28;color:#fff}
   .tema-vermelho .hero{
     background:
-      radial-gradient(ellipse 80% 60% at 10% 0%,rgba(255,120,140,.22),transparent 65%),
-      radial-gradient(ellipse 70% 60% at 100% 70%,rgba(70,0,12,.28),transparent 70%),
-      linear-gradient(165deg,#D6173A 0%,#C4122F 35%,#A50E27 75%,#8E0B22 100%);
+      radial-gradient(ellipse 55% 45% at 52% 28%,rgba(255,80,125,.45),transparent 70%),
+      radial-gradient(ellipse 80% 60% at 8% 0%,rgba(255,110,140,.22),transparent 65%),
+      radial-gradient(ellipse 100% 70% at 50% 115%,rgba(45,0,14,.6),transparent 70%),
+      radial-gradient(ellipse 60% 80% at 105% 60%,rgba(60,0,18,.4),transparent 70%),
+      linear-gradient(160deg,#D8143F 0%,#C4122F 38%,#9C0C2C 78%,#7A0823 100%);
   }
   .tema-vermelho .hero::before{ /* grão sutil como na print */
     content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.14;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .tema-vermelho .sulco path{stroke:#fff}
-  .tema-vermelho .sulco{opacity:.7}
+  .tema-vermelho .sulco{opacity:1}
+  .tema-vermelho .sulco .sl-fios{opacity:.78}
+
+  /* ---------- Legibilidade do hero: o texto vem antes do efeito ---------- */
+  /* o sulco fica fraco atrás do texto e ganha força na parte de baixo */
+  .tema-vermelho .sulco{
+    -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.14) 0%,rgba(0,0,0,.2) 50%,#000 78%);
+            mask-image:linear-gradient(180deg,rgba(0,0,0,.14) 0%,rgba(0,0,0,.2) 50%,#000 78%);
+  }
+  /* véu escuro suave atrás do título e do texto de apoio */
+  .hero-inner::before{
+    content:"";position:absolute;z-index:-1;pointer-events:none;
+    inset:-18% -10% -22% -12%;
+    background:radial-gradient(ellipse 55% 70% at 25% 50%,rgba(80,0,22,.38),transparent 72%),
+               radial-gradient(ellipse 40% 60% at 85% 62%,rgba(80,0,22,.3),transparent 70%);
+  }
+  .title{font-weight:400;text-shadow:0 2px 28px rgba(70,0,20,.35)}
+  .lede{font-weight:500;text-shadow:0 1px 16px rgba(70,0,20,.45)}
+
+  /* ---------- Sulco vivo: faixa de luz com brilho (ref. print) ---------- */
+  /* cortina de luz: pregas verticais irregulares, concentradas atrás da curva */
+  .hero-luz{
+    position:absolute;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;opacity:.9;
+    background:
+      repeating-linear-gradient(90deg,transparent 0 23px,rgba(255,170,190,.1) 29px,transparent 37px),
+      repeating-linear-gradient(90deg,transparent 0 41px,rgba(255,200,215,.085) 52px,transparent 61px),
+      repeating-linear-gradient(90deg,transparent 0 11px,rgba(255,140,170,.045) 15px,transparent 19px);
+    -webkit-mask-image:radial-gradient(ellipse 70% 75% at 55% 18%,#000 0%,rgba(0,0,0,.5) 45%,transparent 80%);
+            mask-image:radial-gradient(ellipse 70% 75% at 55% 18%,#000 0%,rgba(0,0,0,.5) 45%,transparent 80%);
+  }
+  /* camadas de brilho do sulco (não usam o traço fino nem o desenho de entrada das linhas) */
+  .sulco .sl-luz path{vector-effect:none;stroke-dasharray:none;stroke-dashoffset:0;animation:sl-acende 1.6s .9s ease-out both}
+  @keyframes sl-acende{from{opacity:0}}
+  .sulco .sl-luz .sl-nevoa{stroke:url(#sl-grad-rosa);stroke-width:300;opacity:.42;filter:url(#sl-blur-g)}
+  .sulco .sl-luz .sl-sombra{stroke:#2a000c;stroke-width:190;opacity:.55;filter:url(#sl-blur-g)}
+  .sulco .sl-luz .sl-halo{stroke:#ffc2d1;stroke-width:46;opacity:.55;filter:url(#sl-blur-m)}
+  .sulco .sl-luz .sl-borda{stroke:url(#sl-grad-borda);stroke-width:5;opacity:.95;filter:url(#sl-blur-s)}
+  @media (prefers-reduced-motion:reduce){
+    .sulco .sl-luz path{animation:none}
+  }
   .tema-vermelho .title .rule{background:#fff}
   .tema-vermelho .title .accent{color:#fff}
   .tema-vermelho .cfooter{color:var(--ink)}
@@ -252,6 +293,126 @@
     .sv-esq-vazio{display:none}
     .sv-item{grid-template-columns:1fr;gap:28px;padding:48px 24px;min-height:0}
     .sv-icone{justify-content:flex-start}
+  }
+
+  /* ---------- Iceberg: o que você vê × o que a Lavra faz ---------- */
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .iceberg{
+    --agua:37.43%;
+    position:relative;z-index:3;overflow:hidden;color:#fff;text-align:center;
+    background:radial-gradient(ellipse 60% 45% at 0% 0%,rgba(196,18,47,.28),transparent 70%),#08090c;
+    padding:clamp(80px,9vw,130px) var(--pad) 0;
+  }
+  .ib-cab{max-width:46rem;margin:0 auto}
+  .ib-selo{
+    display:inline-flex;align-items:center;gap:12px;padding:12px 24px 12px 18px;border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);font-size:1rem;font-weight:500;
+  }
+  .ib-selo svg{height:18px;width:auto;color:var(--red)}
+  .iceberg h2{margin-top:34px;font-weight:300;font-size:clamp(2.25rem,5.4vw,4.75rem);line-height:1.08;letter-spacing:-.025em}
+  .ib-x{color:var(--red);font-weight:400}
+  .ib-cab p{margin:22px auto 0;max-width:24rem;font-size:clamp(1rem,1.3vw,1.1875rem);line-height:1.5;color:rgba(255,255,255,.66)}
+
+  .ib-arte{position:relative;width:min(640px,100%);margin:clamp(48px,6vw,80px) auto 0;aspect-ratio:600/700}
+  /* "mar": do nível da água até o fim da seção, em toda a largura */
+  .ib-arte::before{content:"";position:absolute;top:var(--agua);bottom:-2px;left:-100vw;right:-100vw;
+    background:linear-gradient(180deg,#1c1d22,#141519);z-index:0}
+  .ib-gelo,.ib-conector{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+  .ib-sub{opacity:.92}
+  .ib-agua{stroke:rgba(255,255,255,.55);stroke-width:1.5}
+  .ib-conector{z-index:2;fill:none;stroke:rgba(255,255,255,.6);stroke-width:2}
+  .ib-conector circle{fill:#d9d9dd;stroke:none}
+
+  .ib-lista{list-style:none;margin:0;padding:0}
+  .ib-pill{position:absolute;z-index:3;transform:translate(-50%,-50%)}
+  .ib-btn{
+    display:inline-flex;align-items:center;gap:12px;white-space:nowrap;cursor:pointer;
+    padding:10px 18px 10px 12px;border-radius:999px;color:#fff;font:inherit;
+    background:linear-gradient(180deg,#17181c,#0b0c0f);border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 18px 40px -18px rgba(0,0,0,.9);
+    font-size:clamp(.8125rem,1.5vw,1.0625rem);font-weight:500;
+    transition:transform .25s var(--ease-out),border-color .25s,box-shadow .25s,background-color .25s;
+  }
+  .ib-btn:active{transform:scale(.97)}
+  .ib-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .ib-btn:hover,.ib-btn[aria-expanded="true"]{
+    transform:translateY(-3px);border-color:rgba(255,82,109,.75);
+    box-shadow:0 22px 44px -16px rgba(0,0,0,.95),0 0 0 4px rgba(196,18,47,.18);
+  }
+  /* "+" que vira "×" quando aberto */
+  .ib-mais{position:relative;width:12px;height:12px;margin-left:2px;flex:none;opacity:.7;transition:transform .3s var(--ease-out),opacity .2s}
+  .ib-mais::before,.ib-mais::after{content:"";position:absolute;left:0;right:0;top:50%;height:1.5px;margin-top:-.75px;background:currentColor;border-radius:1px}
+  .ib-mais::after{transform:rotate(90deg)}
+  .ib-btn:hover .ib-mais{opacity:1}
+  .ib-btn[aria-expanded="true"] .ib-mais{transform:rotate(45deg);opacity:1}
+  /* o olho riscado "se abre" ao passar o mouse: o trabalho escondido aparece */
+  .ib-oculto .ib-ico svg path:last-child{stroke-dasharray:23;stroke-dashoffset:0;transition:stroke-dashoffset .35s var(--ease-out)}
+  .ib-oculto .ib-btn:hover .ib-ico svg path:last-child,
+  .ib-oculto .ib-btn[aria-expanded="true"] .ib-ico svg path:last-child{stroke-dashoffset:23}
+  .ib-oculto .ib-ico{transition:background-color .25s,border-color .25s}
+  .ib-oculto .ib-btn:hover .ib-ico,.ib-oculto .ib-btn[aria-expanded="true"] .ib-ico{background:var(--red);border-color:var(--red)}
+  .ib-oculto .ib-btn:hover .ib-ico svg,.ib-oculto .ib-btn[aria-expanded="true"] .ib-ico svg{stroke:#fff}
+  .ib-pill:has(.ib-btn[aria-expanded="true"]){z-index:6}
+
+  /* pop-up */
+  .ib-pop{
+    position:absolute;z-index:8;left:0;top:0;width:min(340px,calc(100vw - 32px));
+    padding:22px 22px 20px;border-radius:18px;text-align:left;
+    background:rgba(18,19,23,.92);border:1px solid rgba(255,255,255,.14);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);
+    box-shadow:0 30px 70px -20px rgba(0,0,0,.95);
+    opacity:0;visibility:hidden;pointer-events:none;
+    transform-origin:var(--seta,50%) var(--origem-y,100%);
+    transform:translate(-50%,var(--dy,-100%)) translateY(var(--desloca,8px)) scale(.96);
+    transition:opacity .18s ease,transform .22s var(--ease-out),visibility 0s .22s;
+  }
+  .ib-pop.aberto{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translate(-50%,var(--dy,-100%)) scale(1);transition:opacity .2s ease,transform .32s var(--ease-out),visibility 0s}
+  .ib-pop::after{ /* setinha apontando para a etiqueta */
+    content:"";position:absolute;left:var(--seta,50%);width:14px;height:14px;margin-left:-7px;
+    background:inherit;border:inherit;border-width:0 1px 1px 0;transform:rotate(45deg);
+  }
+  .ib-pop.para-cima::after{bottom:-8px}
+  .ib-pop.para-baixo::after{top:-8px;transform:rotate(225deg)}
+  .ib-pop-eyebrow{display:block;font-size:.6875rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#ff6b82}
+  .ib-pop h4{margin-top:8px;font-size:1.3125rem;font-weight:500;letter-spacing:-.01em}
+  .ib-pop-lista{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+  .ib-pop-lista li{position:relative;padding-left:22px;font-size:.9375rem;line-height:1.45;color:rgba(255,255,255,.82)}
+  .ib-pop-lista li::before{content:"";position:absolute;left:2px;top:.55em;width:9px;height:5px;border:solid var(--red);border-width:0 0 2px 2px;transform:rotate(-45deg)}
+  .ib-pop-cta{display:inline-flex;align-items:center;gap:10px;margin-top:18px;min-height:44px;font-size:.9375rem;font-weight:500;color:#fff;border-bottom:1px solid rgba(255,255,255,.35)}
+  .ib-pop-cta:hover{border-color:#fff}
+  .ib-pop-cta:hover .arrow{transform:translateX(4px)}
+  .ib-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--red);flex:none}
+  .ib-ico svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .ib-oculto .ib-ico{background:#2a2b31;border:1px solid rgba(255,255,255,.14)}
+  .ib-oculto .ib-ico svg{stroke:#ff6b82}
+  .p-topo{left:86%;top:9%}
+  .p1{left:34%;top:46%}
+  .p2{left:72%;top:55%}
+  .p3{left:22%;top:66%}
+  .p4{left:62%;top:75%}
+  .p5{left:40%;top:88%}
+
+  /* entrada: a ponta aparece primeiro, depois o que fica embaixo d'água */
+  .iceberg .ib-pill{opacity:0;transform:translate(-50%,calc(-50% + 14px));
+    transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);transition-delay:calc(var(--i) * 120ms + 200ms)}
+  .iceberg.visivel .ib-pill{opacity:1;transform:translate(-50%,-50%)}
+  .ib-conector path{stroke-dasharray:240;stroke-dashoffset:240;transition:stroke-dashoffset .9s var(--ease-out) .1s}
+  .iceberg.visivel .ib-conector path{stroke-dashoffset:0}
+
+  @media (max-width:600px){
+    .ib-arte{width:calc(100% + 40px);margin-left:-20px}
+    .ib-btn{gap:8px;padding:7px 12px 7px 7px}
+    .ib-ico{width:26px;height:26px}
+    .ib-ico svg{width:16px;height:16px}
+    .p-topo{left:78%;top:7%}
+    .p1{left:30%}.p2{left:70%}.p3{left:27%}.p4{left:64%}.p5{left:42%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .iceberg .ib-pill{transition:none;opacity:1;transform:translate(-50%,-50%)}
+    .ib-pop,.ib-pop.aberto{transform:translate(-50%,var(--dy,-100%));transition:opacity .15s ease,visibility 0s .15s}
+    .ib-btn:hover,.ib-btn[aria-expanded="true"]{transform:none}
+    .ib-conector path{transition:none;stroke-dashoffset:0}
   }
 
   /* ---------- Contato ---------- */
@@ -498,6 +659,7 @@
 
 <main>
   <section class="hero" id="topo" aria-label="Apresentação">
+    <div class="hero-luz" aria-hidden="true"></div>
     <svg class="sulco" id="sulco" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
 
     <div class="hero-inner">
@@ -508,7 +670,6 @@
       </h1>
       <div class="hero-lado">
         <p class="lede">Estratégia, marca e performance para empresas que querem sair da curva na frente.</p>
-        <a href="#contato" class="hero-cta"><span class="arrow" aria-hidden="true">→</span>Fale com a Lavra</a>
       </div>
     </div>
   </section>
@@ -528,7 +689,7 @@
 
     <div class="cf-main cf-about">
       <div id="cfTitle">
-        <div class="cf-about-label">Quem somos —</div>
+        <div class="cf-about-label">Quem somos</div>
         <h2 class="cf-about-title" id="sobre-h">Estratégia, criação e dados a serviço do crescimento da sua empresa.</h2>
       </div>
       <div id="cfLinks">
@@ -594,6 +755,32 @@
         <p>Planejamento editorial, produção de conteúdo e gestão de redes sociais para fortalecer a autoridade e o relacionamento com o público.</p>
       </div>
     </article>
+  </div>
+</section>
+
+<section class="iceberg" id="bastidores" aria-labelledby="ib-h">
+  <div class="ib-cab">
+    <span class="ib-selo"><svg viewBox="0 0 62 56" aria-hidden="true"><path d="M0 0H11V45H27V56H0Z" fill="currentColor"/><path d="M31 0H42L62 56H51Z" fill="currentColor"/></svg>Lavra</span>
+    <h2 id="ib-h">O que você vê <span class="ib-x">×</span><br>O que a Lavra faz</h2>
+    <p>Por trás de cada carro vendido, um trabalho que não aparece.</p>
+  </div>
+  <div class="ib-arte">
+    <svg class="ib-gelo" viewBox="0 0 600 700" aria-hidden="true">
+      <g class="ib-sub"><polygon points="110,262 300,262 200,380" fill="#6b6e76"/><polygon points="300,262 500,262 380,360" fill="#5d6068"/><polygon points="110,262 200,380 70,380" fill="#575a62"/><polygon points="300,262 380,360 200,380" fill="#4c4f57"/><polygon points="500,262 530,440 380,360" fill="#4a4d55"/><polygon points="70,380 200,380 120,520" fill="#43464e"/><polygon points="200,380 380,360 300,500" fill="#3f4249"/><polygon points="380,360 530,440 450,600" fill="#393c43"/><polygon points="200,380 300,500 120,520" fill="#36393f"/><polygon points="300,500 380,360 450,600" fill="#34373d"/><polygon points="120,520 300,500 220,660" fill="#2f3238"/><polygon points="300,500 450,600 330,700" fill="#2b2e34"/><polygon points="300,500 330,700 220,660" fill="#282a30"/></g>
+      <g class="ib-ponta"><polygon points="130,262 200,150 250,262" fill="#e7e8eb"/><polygon points="200,150 300,40 250,262" fill="#ffffff"/><polygon points="200,150 245,105 300,40" fill="#f3f3f5"/><polygon points="300,40 360,120 250,262" fill="#d5d6da"/><polygon points="360,120 470,262 250,262" fill="#c2c3c8"/><polygon points="360,120 425,150 470,262" fill="#e0e1e4"/></g>
+      <line class="ib-agua" x1="40" y1="262" x2="560" y2="262"/>
+    </svg>
+    <svg class="ib-conector" viewBox="0 0 600 700" aria-hidden="true"><path d="M372 150 H470 Q490 150 490 130 V96"/><circle cx="490" cy="92" r="5"/><circle cx="372" cy="150" r="4"/></svg>
+    <h3 class="sr-only">O que você vê</h3>
+    <ul class="ib-lista ib-visivel"><li class="ib-pill p-topo" style="--i:0"><button type="button" class="ib-btn" data-ib="vendido" aria-expanded="false" aria-controls="ib-pop"><span class="ib-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span>Carro vendido<span class="ib-mais" aria-hidden="true"></span></button></li></ul>
+    <h3 class="sr-only">O que fica por trás</h3>
+    <ul class="ib-lista ib-oculto"><li class="ib-pill p1" style="--i:1"><button type="button" class="ib-btn" data-ib="estrategia" aria-expanded="false" aria-controls="ib-pop"><span class="ib-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></span>Estratégia<span class="ib-mais" aria-hidden="true"></span></button></li><li class="ib-pill p2" style="--i:2"><button type="button" class="ib-btn" data-ib="fotos" aria-expanded="false" aria-controls="ib-pop"><span class="ib-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></span>Fotos e vídeos<span class="ib-mais" aria-hidden="true"></span></button></li><li class="ib-pill p3" style="--i:3"><button type="button" class="ib-btn" data-ib="trafego" aria-expanded="false" aria-controls="ib-pop"><span class="ib-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></span>Tráfego pago<span class="ib-mais" aria-hidden="true"></span></button></li><li class="ib-pill p4" style="--i:4"><button type="button" class="ib-btn" data-ib="leads" aria-expanded="false" aria-controls="ib-pop"><span class="ib-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></span>Atendimento de leads<span class="ib-mais" aria-hidden="true"></span></button></li><li class="ib-pill p5" style="--i:5"><button type="button" class="ib-btn" data-ib="dados" aria-expanded="false" aria-controls="ib-pop"><span class="ib-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg></span>Análise de dados<span class="ib-mais" aria-hidden="true"></span></button></li></ul>
+    <div class="ib-pop" id="ib-pop" role="dialog" aria-labelledby="ib-pop-h">
+      <span class="ib-pop-eyebrow"></span>
+      <h4 id="ib-pop-h"></h4>
+      <ul class="ib-pop-lista"></ul>
+      <a href="#contato" class="ib-pop-cta"><span class="arrow" aria-hidden="true">→</span>Quero isso na minha loja</a>
+    </div>
   </div>
 </section>
 
@@ -759,35 +946,60 @@
 </script>
 
 <script>
-/* Sulco — feixe de linhas no traçado do S de Interlagos */
+/* Sulco — feixe de linhas no traçado do S de Interlagos, com faixa de luz viva */
 const svg = document.getElementById('sulco');
 const NS = 'http://www.w3.org/2000/svg';
 const N = 22;
+/* traçado do S: k = posição dentro do feixe (-0.5 borda de cima … 0.5 borda de baixo) */
+const tracado = (k, w1 = 0, w2 = 0) => [
+  `M -120 ${560 + k*60}`,
+  `C 180 ${500 + k*50 + w1}, 430 ${360 + k*70}, 720 ${470 + k*110 + w2}`,
+  `S 1080 ${830 + k*190 - w1}, 1290 ${660 + k*120}`,
+  `S 1520 ${250 + k*70 + w2}, 1740 ${200 + k*40}`
+].join(' ');
+const el = (tag, attrs = {}, pai = svg) => {
+  const n = document.createElementNS(NS, tag);
+  for (const [a, v] of Object.entries(attrs)) n.setAttribute(a, v);
+  pai.appendChild(n); return n;
+};
+/* filtros e degradês do brilho */
+svg.innerHTML = `<defs>
+  <filter id="sl-blur-g" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="55"/></filter>
+  <filter id="sl-blur-m" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="14"/></filter>
+  <filter id="sl-blur-s" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  <linearGradient id="sl-grad-rosa" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1600" y2="0">
+    <stop offset="0" stop-color="#ff4f86" stop-opacity="0"/><stop offset=".3" stop-color="#ff4f86"/>
+    <stop offset=".62" stop-color="#ff7aa2"/><stop offset="1" stop-color="#ff4f86" stop-opacity=".2"/>
+  </linearGradient>
+  <linearGradient id="sl-grad-borda" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1600" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".18" stop-color="#ffd6e0" stop-opacity=".7"/>
+    <stop offset=".45" stop-color="#fff"/><stop offset=".8" stop-color="#ffe3ea"/><stop offset="1" stop-color="#fff" stop-opacity=".3"/>
+  </linearGradient>
+</defs>`;
+/* 1) luz parada (barata): névoa rosa, sombra do "corpo" da faixa, halo e borda acesa */
+const luz = el('g', {class:'sl-luz'});
+el('path', {class:'sl-nevoa', d: tracado(0)}, luz);
+el('path', {class:'sl-sombra', d: tracado(.75)}, luz);
+el('path', {class:'sl-halo', d: tracado(-.6)}, luz);
+el('path', {class:'sl-borda', d: tracado(-.62)}, luz);
+/* 2) o feixe de fios finos (assinatura da marca), que ondula devagar */
+const fios = el('g', {class:'sl-fios'});
 const paths = [];
-for(let i=0;i<N;i++){
-  const p = document.createElementNS(NS,'path');
-  const k = i/(N-1) - .5;                 // -0.5 .. 0.5
-  const center = 1 - Math.abs(k)*2;        // 1 no meio, 0 nas bordas
-  p.setAttribute('pathLength','1');
-  p.style.strokeWidth = (0.6 + center*0.9).toFixed(2);
-  p.style.opacity = (0.22 + center*0.6).toFixed(2);
+for (let i = 0; i < N; i++){
+  const k = i/(N-1) - .5;
+  const center = 1 - Math.abs(k)*2;
+  const p = el('path', {pathLength: '1'}, fios);
+  p.style.strokeWidth = (0.6 + center*1.1).toFixed(2);
+  p.style.opacity = (0.28 + center*0.66).toFixed(2);
   p.style.animationDelay = (0.15 + Math.abs(k)*0.9).toFixed(2)+'s';
-  svg.appendChild(p); paths.push({p,k});
+  paths.push({p, k});
 }
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let visivel = true, raf = 0;
 function build(time){
-  const s = time/1000;
-  for(const {p,k} of paths){
-    const w1 = Math.sin(s*.45 + k*3)*10, w2 = Math.cos(s*.35 + k*2)*14;
-    // o feixe abre na curva funda e fecha nas retas
-    const d = [
-      `M -120 ${560 + k*60}`,
-      `C 180 ${500 + k*50 + w1}, 430 ${360 + k*70}, 720 ${470 + k*110 + w2}`,
-      `S 1080 ${830 + k*190 - w1}, 1290 ${660 + k*120}`,
-      `S 1520 ${250 + k*70 + w2}, 1740 ${200 + k*40}`
-    ].join(' ');
-    p.setAttribute('d',d);
+  const t = time/1000;
+  for (const {p, k} of paths){
+    p.setAttribute('d', tracado(k, Math.sin(t*.45 + k*3)*10, Math.cos(t*.35 + k*2)*14));
   }
   raf = (!reduce && visivel) ? requestAnimationFrame(build) : 0;
 }
@@ -879,6 +1091,124 @@ new IntersectionObserver(([e]) => {
   addEventListener('scroll', pedir, {passive:true});
   addEventListener('resize', pedir);
   atualizar();
+})();
+</script>
+<script>
+/* Iceberg: revela as etiquetas quando a seção entra na tela */
+(() => {
+  const sec = document.querySelector('.iceberg');
+  if (!sec) return;
+  if (!('IntersectionObserver' in window)) { sec.classList.add('visivel'); return; }
+  const obs = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { sec.classList.add('visivel'); obs.disconnect(); }
+  }, {threshold: .25});
+  obs.observe(sec);
+})();
+</script>
+<script>
+/* Iceberg: pop-up com o que a Lavra faz em cada item (hover no computador, toque/clique em qualquer aparelho) */
+(() => {
+  const arte = document.querySelector('.ib-arte');
+  const pop = document.getElementById('ib-pop');
+  if (!arte || !pop) return;
+  // TODO: revisar com a Lavra a lista real de entregas de cada item
+  const dados = {
+    vendido: ['O que você vê', 'Carro vendido', [
+      'Mais pessoas vendo o seu estoque',
+      'Contatos de quem realmente quer comprar',
+      'Visitas agendadas na loja',
+      'Carros girando mais rápido no pátio']],
+    estrategia: ['O que a Lavra faz', 'Estratégia', [
+      'Diagnóstico da loja e da concorrência na sua região',
+      'Definição de público, canais e verba',
+      'Calendário mensal de campanhas e conteúdo',
+      'Metas de contatos e vendas acompanhadas']],
+    fotos: ['O que a Lavra faz', 'Fotos e vídeos', [
+      'Ensaio fotográfico de cada carro do estoque',
+      'Vídeos curtos para Reels, TikTok e Stories',
+      'Vídeo de apresentação completa do veículo',
+      'Padrão visual da loja em todos os portais']],
+    trafego: ['O que a Lavra faz', 'Tráfego pago', [
+      'Campanhas no Meta Ads e no Google Ads',
+      'Anúncios do estoque por modelo e faixa de preço',
+      'Público segmentado pela região da loja',
+      'Ajuste semanal do investimento']],
+    leads: ['O que a Lavra faz', 'Atendimento de leads', [
+      'Contatos chegando direto no WhatsApp ou CRM da loja',
+      'Roteiros de resposta para os vendedores',
+      'Acompanhamento do tempo de resposta',
+      'Recuperação de contatos que esfriaram']],
+    dados: ['O que a Lavra faz', 'Análise de dados', [
+      'Relatório mensal de resultados',
+      'Custo por contato e por venda',
+      'Desempenho por canal e por carro',
+      'Recomendações para o mês seguinte']],
+  };
+  const eyebrow = pop.querySelector('.ib-pop-eyebrow'), titulo = pop.querySelector('h4'), lista = pop.querySelector('.ib-pop-lista');
+  const btns = [...arte.querySelectorAll('.ib-btn')];
+  const podeHover = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  let atual = null, fixo = false, tFechar = 0, tAbrir = 0;
+
+  const posicionar = (btn) => {
+    const a = arte.getBoundingClientRect(), b = btn.getBoundingClientRect();
+    const w = pop.offsetWidth, gap = 14;
+    const cx = b.left + b.width / 2;                       // centro da etiqueta (tela)
+    const minX = 16 + w / 2, maxX = innerWidth - 16 - w / 2;
+    const x = Math.min(maxX, Math.max(minX, cx));          // mantém o card dentro da tela
+    const paraBaixo = b.top - a.top < a.height * 0.2;      // etiquetas do topo abrem para baixo
+    pop.classList.toggle('para-baixo', paraBaixo);
+    pop.classList.toggle('para-cima', !paraBaixo);
+    pop.style.left = (x - a.left) + 'px';
+    pop.style.top = ((paraBaixo ? b.bottom + gap : b.top - gap) - a.top) + 'px';
+    pop.style.setProperty('--dy', paraBaixo ? '0%' : '-100%');
+    pop.style.setProperty('--desloca', paraBaixo ? '-8px' : '8px');
+    pop.style.setProperty('--origem-y', paraBaixo ? '0%' : '100%');
+    pop.style.setProperty('--seta', Math.min(w - 22, Math.max(22, cx - x + w / 2)) + 'px');
+  };
+
+  const abrir = (btn, fixar) => {
+    clearTimeout(tFechar);
+    if (atual && atual !== btn) atual.setAttribute('aria-expanded', 'false');
+    const [e, t, itens] = dados[btn.dataset.ib];
+    eyebrow.textContent = e; titulo.textContent = t;
+    lista.replaceChildren(...itens.map(txt => Object.assign(document.createElement('li'), {textContent: txt})));
+    atual = btn; fixo = fixar;
+    btn.setAttribute('aria-expanded', 'true');
+    posicionar(btn);
+    pop.classList.add('aberto');
+  };
+  const fechar = (devolverFoco) => {
+    clearTimeout(tAbrir);
+    if (!atual) return;
+    pop.classList.remove('aberto');
+    atual.setAttribute('aria-expanded', 'false');
+    if (devolverFoco) atual.focus();
+    atual = null; fixo = false;
+  };
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (atual === btn && fixo) fechar(false); else abrir(btn, true);
+    });
+    if (podeHover) {
+      btn.addEventListener('pointerenter', () => {
+        clearTimeout(tFechar);
+        if (fixo && atual !== btn) return;            // um card fixado por clique não é trocado pelo hover
+        tAbrir = setTimeout(() => abrir(btn, fixo && atual === btn), atual ? 0 : 90);
+      });
+      btn.addEventListener('pointerleave', () => { clearTimeout(tAbrir); if (!fixo) tFechar = setTimeout(() => fechar(false), 160); });
+    }
+  });
+  if (podeHover) {
+    pop.addEventListener('pointerenter', () => clearTimeout(tFechar));
+    pop.addEventListener('pointerleave', () => { if (!fixo) tFechar = setTimeout(() => fechar(false), 160); });
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && atual) fechar(true); });
+  document.addEventListener('pointerdown', e => {
+    if (atual && !pop.contains(e.target) && !e.target.closest('.ib-btn')) fechar(false);
+  });
+  pop.querySelector('.ib-pop-cta').addEventListener('click', () => fechar(false));
+  addEventListener('resize', () => { if (atual) posicionar(atual); });
 })();
 </script>
 </body>
